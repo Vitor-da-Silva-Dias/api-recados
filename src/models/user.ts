@@ -35,7 +35,7 @@ export class User{
         return this._errands;
     }
 
-    public toJSON(){
+    public toJson(){
         return{
             id: this._id,
             email: this._email,
