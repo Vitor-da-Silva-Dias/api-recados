@@ -1,6 +1,6 @@
 import { User } from "../models/user";
 
 export const users = [
-    new User ("teste1@teste.com", "teste1", []),
-    new User ("teste2@teste.com", "teste2", [])
+    new User ("Teste1","teste1@teste.com", "teste1", []),
+    new User ("Teste2","teste2@teste.com", "teste2", [])
 ];

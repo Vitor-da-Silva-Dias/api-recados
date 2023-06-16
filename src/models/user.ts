@@ -4,6 +4,7 @@ import { Errand } from "./errand";
 export class User{
     private _id: string;
     constructor(
+        private _name: string,
         private _email: string,
         private _password: string,
         private _errands: Errand[] = []
@@ -13,6 +14,14 @@ export class User{
 
     public get id(){
         return this._id;
+    }
+
+    public get name(){
+        return this._name;
+    }
+
+    public set name(name:string){
+        this._name = name;
     }
 
     public get email(){
@@ -38,6 +47,7 @@ export class User{
     public toJson(){
         return{
             id: this._id,
+            name: this._name,
             email: this._email,
             password: this.password,
             errands: this.errands

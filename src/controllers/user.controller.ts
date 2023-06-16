@@ -4,7 +4,6 @@ import { User } from "../models/user";
 import { StatusCodes } from "http-status-codes";
 
 export class UserController {
-    //metodo
     public getAllUsers(req: Request, res: Response) {
       try {
         const { email, password } = req.query;
