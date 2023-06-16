@@ -54,7 +54,7 @@ export class UserController {
           if (!name) {
             return res.status(StatusCodes.BAD_REQUEST).send({
               ok: false,
-              message: "Nome was not provided",
+              message: "Name was not provided",
             });
           }
 
@@ -88,5 +88,68 @@ export class UserController {
           });
         }
       }
+
+      public updateUser(req: Request, res: Response) {
+        try {
+          const { id } = req.params;
+          const { email } = req.body;
+          const { password } = req.body;  
+    
+          const user = users.find((user) => user.id === id);
+    
+          if (!user) {
+            return res
+              .status(StatusCodes.NOT_FOUND)
+              .send({ ok: false, message: "User was not found" });
+          }
+    
+          if (!email || user.email === email) {
+            return res.status(StatusCodes.BAD_REQUEST).send({ ok: false, message: "Email is invalid" });
+          }
+
+          if (!password || user.password === password) {
+            return res.status(StatusCodes.BAD_REQUEST).send({ ok: false, message: "Password is invalid" });
+          }
+    
+          user.email = email;
+          user.password = password;
+          return res
+            .status(StatusCodes.OK)
+            .send({ ok: true, message: "Email was successfully updated" });
+        } catch (error: any) {
+          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+            ok: false,
+            message: error.toString(),
+          });
+        }
+      }
+
+      public deleteUser(req: Request, res: Response) {
+        try {
+          const { id } = req.params;
+    
+          const userIndex = users.findIndex((user) => user.id === id);
+    
+          if (!userIndex) {
+            return res
+              .status(StatusCodes.NOT_FOUND)
+              .send({ ok: false, message: "user was not found." });
+          }
+    
+          const deletedUser = users.splice(userIndex, 1);
+    
+          return res.status(StatusCodes.OK).send({
+            ok: true,
+            message: "user was successfully deleted",
+            data: deletedUser[0].toJson(),
+          });
+        } catch (error: any) {
+          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+            ok: false,
+            message: error.toString(),
+          });
+        }
+      }
+    
   }
       
