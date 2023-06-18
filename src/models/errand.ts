@@ -1,16 +1,16 @@
 import { v4 as createUuid } from "uuid";
 
 export class Errand {
-    private _idErrand: string;
+    private _errandId: string;
     constructor(
         private _description: string,
         private _detail: string
     ){
-        this._idErrand = createUuid();
+        this._errandId = createUuid();
     }
 
     public get idErrand(){
-        return this._idErrand;
+        return this._errandId;
     }
 
     public get description(){
@@ -31,7 +31,7 @@ export class Errand {
 
     public toJson(){
         return{
-            id: this._idErrand,
+            id: this._errandId,
             description: this._description,
             detail: this.detail
         };

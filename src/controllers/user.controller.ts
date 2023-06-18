@@ -96,6 +96,7 @@ export class UserController {
           const { password } = req.body;  
     
           const user = users.find((user) => user.id === id);
+          
     
           if (!user) {
             return res
