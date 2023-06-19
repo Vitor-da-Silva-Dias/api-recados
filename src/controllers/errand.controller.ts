@@ -126,4 +126,41 @@ export class ErrandController {
         });
       }
     }
+
+    public deleteErrand(req: Request, res: Response) {
+      try {
+        const { userId, ErrandId } = req.params;
+  
+        const user = users.find((user) => user.id === userId);
+  
+        if (!user) {
+          return res
+            .status(StatusCodes.NOT_FOUND)
+            .send({ ok: false, message: "User was not found." });
+        }
+  
+        const ErrandIndex = user.errands.findIndex(
+          (errand) => errand.idErrand === ErrandId
+        );
+  
+        if (ErrandIndex === -1) {
+          return res
+            .status(StatusCodes.NOT_FOUND)
+            .send({ ok: false, message: "Errand was not found." });
+        }
+  
+        const deletedTransaction = user.errands.splice(ErrandIndex, 1);
+  
+        return res.status(StatusCodes.OK).send({
+          ok: true,
+          message: "Errand was deleted",
+          data: deletedTransaction[0].toJson(),
+        });
+      } catch (error: any) {
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+          ok: false,
+          message: error.toString(),
+        });
+      }
+    }
 }
