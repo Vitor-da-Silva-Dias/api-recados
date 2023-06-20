@@ -27,6 +27,7 @@ export class UserController {
               name: user.toJson().name,
               email: user.toJson().email,
               password: user.toJson().password,
+              errands: user.toJson().errands
             };
           }),
         });
@@ -116,7 +117,7 @@ export class UserController {
           user.password = password;
           return res
             .status(StatusCodes.OK)
-            .send({ ok: true, message: "Email was successfully updated" });
+            .send({ ok: true, message: "Email and password have been updated successfully" });
         } catch (error: any) {
           return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
             ok: false,

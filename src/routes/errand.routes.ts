@@ -10,7 +10,7 @@ export const errandRoutes = () => {
     const controller = new ErrandController();
 
     app.post("/", new ErrandController().createErrand);
-    // app.get("/")
+    app.get("/", new ErrandController().listErrand);
     app.put("/:errandId", new ErrandController().updateErrand);
     app.delete("/:errandId", new ErrandController().deleteErrand);
 

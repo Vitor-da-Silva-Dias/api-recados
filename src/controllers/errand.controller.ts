@@ -38,7 +38,7 @@ export class ErrandController {
   
         return res.status(StatusCodes.OK).send({
           ok: true,
-          message: "Transaction were sucessfully listed",
+          message: "Errand were sucessfully listed",
           data: newErrand.toJson(),
         });
       } catch (error: any) {
@@ -49,40 +49,34 @@ export class ErrandController {
       }
     }
 
-    // public listErrand(req: Request, res: Response) {
-    //   try {
-    //     const { userId, errandId } = req.params;
+    public listErrand(req: Request, res: Response) {
+      try {
+        const { userId } = req.params;
   
-    //     const user = users.find((user) => user.id === userId);
+        const user = users.find((user) => user.id === userId);
   
-    //     if (!user) {
-    //       return res
-    //         .status(StatusCodes.NOT_FOUND)
-    //         .send({ ok: false, message: "User was not found" });
-    //     }
+        if (!user) {
+          return res
+            .status(StatusCodes.NOT_FOUND)
+            .send({ ok: false, message: "User was not found" });
+        }
   
-    //     const ErrandValid = user.errands.find(
-    //       (errand) => errand.idErrand === errandId
-    //     );
+        const errands = user.errands.map((errands) =>
+        errands.toJson()
+      );
   
-    //     if (!ErrandValid) {
-    //       return res
-    //         .status(StatusCodes.NOT_FOUND)
-    //         .send({ ok: false, message: "Errand was not found." });
-    //     }
-  
-    //     return res.status(StatusCodes.OK).send({
-    //       ok: true,
-    //       message: "Errand was sucessfully listed",
-    //       data: ErrandValid.toJson(),
-    //     });
-    //   } catch (error: any) {
-    //     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
-    //       ok: false,
-    //       message: error.toString(),
-    //     });
-    //   }
-    // }
+        return res.status(StatusCodes.OK).send({
+          ok: true,
+          message: "Errand was sucessfully listed",
+          data: errands
+        });
+      } catch (error: any) {
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+          ok: false,
+          message: error.toString(),
+        });
+      }
+    }
 
     public updateErrand(req: Request, res: Response) {
       try {
@@ -104,7 +98,7 @@ export class ErrandController {
         if (!ErrandIndex) {
           return res
             .status(StatusCodes.NOT_FOUND)
-            .send({ ok: false, message: "TErrand was not found." });
+            .send({ ok: false, message: "Errand was not found." });
         }
   
         if ( !description || !detail ) {
@@ -129,7 +123,7 @@ export class ErrandController {
 
     public deleteErrand(req: Request, res: Response) {
       try {
-        const { userId, ErrandId } = req.params;
+        const { userId, errandId } = req.params;
   
         const user = users.find((user) => user.id === userId);
   
@@ -140,21 +134,21 @@ export class ErrandController {
         }
   
         const ErrandIndex = user.errands.findIndex(
-          (errand) => errand.idErrand === ErrandId
+          (errand) => errand.idErrand === errandId
         );
-  
+          console.log(ErrandIndex);
         if (ErrandIndex === -1) {
           return res
             .status(StatusCodes.NOT_FOUND)
             .send({ ok: false, message: "Errand was not found." });
         }
   
-        const deletedTransaction = user.errands.splice(ErrandIndex, 1);
+        const deletedErrand = user.errands.splice(ErrandIndex, 1);
   
         return res.status(StatusCodes.OK).send({
           ok: true,
           message: "Errand was deleted",
-          data: deletedTransaction[0].toJson(),
+          data: deletedErrand[0].toJson(),
         });
       } catch (error: any) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
