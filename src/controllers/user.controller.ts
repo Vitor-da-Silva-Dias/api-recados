@@ -152,6 +152,42 @@ export class UserController {
           });
         }
       }
+
+      public login(req: Request, res: Response) {
+        try {
+            const { email, password } = req.body;
+
+            if (!email) {
+                return res
+                .status(StatusCodes.BAD_REQUEST)
+                .send({ ok: false, message: "Email was not provided" });          
+                }
+
+            if (!password) {
+              return res
+              .status(StatusCodes.BAD_REQUEST)
+              .send({ ok: false, message: "Password was not provided" });
+            }
+
+            const user = users.find((user) => user.email === email && user.password === password);
+            if (!user) {
+              return res
+              .status(StatusCodes.UNAUTHORIZED)
+              .send({ ok: false, message: "Invalid email or password" }); 
+            }
+
+            return res.status(StatusCodes.OK).send({
+              ok: true,
+              message: "Login successfully done",
+              data: user.toJson()
+            });
+        } catch (error: any) {
+          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+            ok: false,
+            message: error.toString(),
+          });
+        }
+    }
     
   }
       

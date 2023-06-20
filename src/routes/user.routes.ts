@@ -9,6 +9,7 @@ export const appRoutes = () => {
     app.post("/", new UserController().createUser);
     app.put("/:id", new UserController().updateUser);
     app.delete("/:id", new UserController().deleteUser);
+    app.post("/login", new UserController().login);
 
     app.use("/:userId/errands", errandRoutes());
 
