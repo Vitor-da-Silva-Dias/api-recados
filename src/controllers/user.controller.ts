@@ -48,7 +48,7 @@ export class UserController {
           if (emailValid) {
             return res.status(StatusCodes.UNAUTHORIZED).send({
               ok: false,
-              messege: "email already registered",
+              message: "email already registered",
             });
           }
     
@@ -76,7 +76,8 @@ export class UserController {
     
           const user = new User(name, email, password);
           users.push(user);
-    
+          // console.log(users);
+
           return res.status(StatusCodes.CREATED).send({
             ok: true,
             message: "User was successfully created",
