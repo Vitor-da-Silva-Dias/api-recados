@@ -14,5 +14,8 @@ export const errandRoutes = () => {
     app.put("/:errandId", new ErrandController().updateErrand);
     app.delete("/:errandId", new ErrandController().deleteErrand);
 
+    app.post("/:errandId/archive", new ErrandController().archiveErrand);
+    app.post("/:errandId/unarchive", new ErrandController().unarchiveErrand);
+
     return app;
 }

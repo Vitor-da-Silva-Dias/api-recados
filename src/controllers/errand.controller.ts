@@ -163,4 +163,85 @@ export class ErrandController {
         });
       }
     }
+
+    public archiveErrand(req: Request, res: Response) {
+      try {
+        const { userId, errandId } = req.params;
+    
+        const user = users.find((user) => user.id === userId);
+    
+        if (!user) {
+          return res
+            .status(StatusCodes.NOT_FOUND)
+            .send({ ok: false, message: "User was not found." });
+        }
+    
+        const errand = user.errands.find((errand) => errand.idErrand === errandId);
+    
+        if (!errand) {
+          return res
+            .status(StatusCodes.NOT_FOUND)
+            .send({ ok: false, message: "Errand was not found." });
+        }
+        
+        if(errand._archived === false){
+          errand._archived = true;
+        }
+        else{
+          return res
+            .status(StatusCodes.UNAUTHORIZED)
+            .send({ ok: false, message: "Errand already archived." });
+        }
+    
+        return res
+          .status(StatusCodes.OK)
+          .send({ ok: true, message: "Errand was successfully archived." });
+      } catch (error: any) {
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+          ok: false,
+          message: error.toString(),
+        });
+      }
+    }
+    
+    public unarchiveErrand(req: Request, res: Response) {
+      try {
+        const { userId, errandId } = req.params;
+    
+        const user = users.find((user) => user.id === userId);
+    
+        if (!user) {
+          return res
+            .status(StatusCodes.NOT_FOUND)
+            .send({ ok: false, message: "User was not found." });
+        }
+    
+        const errand = user.errands.find((errand) => errand.idErrand === errandId);
+    
+        if (!errand) {
+          return res
+            .status(StatusCodes.NOT_FOUND)
+            .send({ ok: false, message: "Errand was not found." });
+        }
+    
+        if(errand._archived === true){
+          errand._archived = false;
+        }
+        else{
+          return res
+            .status(StatusCodes.UNAUTHORIZED)
+            .send({ ok: false, message: "Errand already unarchived." });
+        }
+    
+        return res
+          .status(StatusCodes.OK)
+          .send({ ok: true, message: "Errand was successfully unarchived." });
+      } catch (error: any) {
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+          ok: false,
+          message: error.toString(),
+        });
+      }
+    }
+    
 }

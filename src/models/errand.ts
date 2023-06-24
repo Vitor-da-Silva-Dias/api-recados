@@ -2,11 +2,13 @@ import { v4 as createUuid } from "uuid";
 
 export class Errand {
     private _errandId: string;
+    public _archived: boolean;
     constructor(
         private _description: string,
-        private _detail: string
+        private _detail: string,
     ){
         this._errandId = createUuid();
+        this._archived = false;
     }
 
     public get idErrand(){
@@ -33,7 +35,8 @@ export class Errand {
         return{
             id: this._errandId,
             description: this._description,
-            detail: this.detail
+            detail: this.detail,
+            archived: this._archived
         };
     }
 }
