@@ -259,16 +259,15 @@ export class ErrandController {
 
     let filteredErrands = user.errands;
 
-    
     if (description) {
-      const Description = String(description);
+      const lowerCaseDescription = String(description).toLowerCase();
       filteredErrands = filteredErrands.filter(
-        (errand) => errand.description.includes(Description)
+        (errand) => errand.description.toLowerCase().includes(lowerCaseDescription)
       );
     }
 
     
-    if (archived !== undefined) {
+    if (archived !== "") {
       const isArchived = archived === 'true';
       filteredErrands = filteredErrands.filter((errand) => errand._archived === isArchived);
     }
