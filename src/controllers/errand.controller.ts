@@ -244,4 +244,42 @@ export class ErrandController {
       }
     }
     
+  public filterErrands(req: Request, res: Response) {
+  try {
+    const { userId } = req.params;
+    const { description, archived } = req.query;
+
+    const user = users.find((user) => user.id === userId);
+
+    if (!user) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .send({ ok: false, message: 'User was not found.' });
+    }
+
+    let filteredErrands = user.errands;
+
+    
+    if (description) {
+      const Description = String(description);
+      filteredErrands = filteredErrands.filter(
+        (errand) => errand.description.includes(Description)
+      );
+    }
+
+    
+    if (archived !== undefined) {
+      const isArchived = archived === 'true';
+      filteredErrands = filteredErrands.filter((errand) => errand._archived === isArchived);
+    }
+
+    return res.status(StatusCodes.OK).send({ ok: true, errands: filteredErrands });
+  } catch (error: any) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+      ok: false,
+      message: error.toString(),
+    });
+  }
 }
+};
+  

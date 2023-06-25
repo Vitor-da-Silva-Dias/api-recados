@@ -17,5 +17,7 @@ export const errandRoutes = () => {
     app.post("/:errandId/archive", new ErrandController().archiveErrand);
     app.post("/:errandId/unarchive", new ErrandController().unarchiveErrand);
 
+    app.get("/filter", new ErrandController().filterErrands);
+
     return app;
 }
