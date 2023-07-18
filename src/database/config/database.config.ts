@@ -12,9 +12,8 @@ const dataSource = new DataSource({
     },
     logging: true,
     synchronize: false,
-    schema: 'transactions',
-    entities: ['src/database/entities/**/*.ts'],
-    // entities: [UserEntity]    
+    schema: 'crud_users_errands',
+    entities: ["src/database/entities/**/*.ts"],  
 });
 
 export default dataSource;

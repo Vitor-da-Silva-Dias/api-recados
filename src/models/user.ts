@@ -1,5 +1,6 @@
 import { v4 as createUuid } from "uuid";
 import { Errand } from "./errand";
+import { UserEntity } from "../database/entities/user.entity";
 
 export class User{
     private _id: string;
@@ -52,5 +53,12 @@ export class User{
             password: this.password,
             errands: this.errands
         };
+    }
+
+    public static create(row: UserEntity) {
+        const user = new User(row.email, row.name, row.password);
+        user._id = row.userid;
+
+        return user;
     }
 }
