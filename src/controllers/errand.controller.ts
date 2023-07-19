@@ -1,6 +1,6 @@
 import { users } from "../data/users";
 import { Request, Response } from "express";
-import { Errand } from "../models/errand";
+import { Errand } from "../models/errand.model";
 import { StatusCodes } from "http-status-codes";
 
 

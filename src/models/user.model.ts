@@ -1,5 +1,5 @@
 import { v4 as createUuid } from "uuid";
-import { Errand } from "./errand";
+import { Errand } from "./errand.model";
 import { UserEntity } from "../database/entities/user.entity";
 
 export class User{
