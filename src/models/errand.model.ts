@@ -15,7 +15,7 @@ export class Errand {
         this._archived = false;
     }
 
-    public get idErrand(){
+    public get errandId(){
         return this._errandId;
     }
 
