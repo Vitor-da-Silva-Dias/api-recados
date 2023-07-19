@@ -14,6 +14,19 @@ export class UserRepository {
         return result.map((entity) => UserRepository.mapRowToModel(entity));
     }
 
+    public async get(userid: string) {
+        
+        const result = await this.repository.findOneBy({
+            userid,
+        });
+
+        if (!result) {
+            return undefined;
+        }
+
+        return UserRepository.mapRowToModel(result);
+    }
+
     public async create(user: User) {
         const UserEntity = this.repository.create({
             userid: user.id,
