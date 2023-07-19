@@ -3,18 +3,18 @@ import { Errand } from "./errand.model";
 import { UserEntity } from "../database/entities/user.entity";
 
 export class User{
-    private _id: string;
+    private _userid: string;
     constructor(
         private _name: string,
         private _email: string,
         private _password: string,
         private _errands: Errand[] = []
     ){
-        this._id = createUuid();
+        this._userid = createUuid();
     }
 
-    public get id(){
-        return this._id;
+    public get userid(){
+        return this._userid;
     }
 
     public get name(){
@@ -47,7 +47,7 @@ export class User{
 
     public toJson(){
         return{
-            id: this._id,
+            id: this._userid,
             name: this._name,
             email: this._email,
             password: this.password,
@@ -57,7 +57,7 @@ export class User{
 
     public static create(row: UserEntity) {
         const user = new User(row.email, row.name, row.password);
-        user._id = row.userid;
+        user._userid = row.userid;
 
         return user;
     }

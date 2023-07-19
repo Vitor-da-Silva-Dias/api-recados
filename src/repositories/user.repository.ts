@@ -29,7 +29,7 @@ export class UserRepository {
 
     public async create(user: User) {
         const UserEntity = this.repository.create({
-            userid: user.id,
+            userid: user.userid,
             name: user.name,
             email: user.email,
             password: user.password,
@@ -50,7 +50,7 @@ export class UserRepository {
     public async update(user: User) {
         await this.repository.update(
             {
-                userid: user.id,
+                userid: user.userid,
             },
             {
                 email: user.email,
