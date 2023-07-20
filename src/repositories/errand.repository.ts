@@ -16,7 +16,7 @@ export class ErrandRepository{
             id: errand.errandId,
             description: errand.description,
             detail: errand.detail,
-            userId: errand.user.userid
+            userId: errand.user.userId
         });
 
         await this.repository.save(ErrandEntity);

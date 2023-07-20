@@ -57,7 +57,7 @@ export class User{
 
     public static create(row: UserEntity) {
         const user = new User(row.email, row.name, row.password);
-        user._userId = row.userid;
+        user._userId = row.id;
 
         return user;
     }

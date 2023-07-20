@@ -5,9 +5,6 @@ import { BaseEntity } from "./base.entity";
 @Entity("errands")
 
 export class ErrandEntity extends BaseEntity{
-    @PrimaryColumn()
-    errandid: string;
-
     @Column()
     description: string;
 

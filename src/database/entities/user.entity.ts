@@ -7,9 +7,6 @@ import { BaseEntity } from "./base.entity";
 
 
 export class UserEntity extends BaseEntity{
-    @PrimaryColumn()
-    userid: string;
-
     @Column()
     name: string;
 
