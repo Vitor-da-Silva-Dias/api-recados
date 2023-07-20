@@ -13,7 +13,7 @@ export class ErrandRepository{
 
     public async create(errand: Errand) {
         const ErrandEntity = this.repository.create({
-            errandid: errand.errandId,
+            id: errand.errandId,
             description: errand.description,
             detail: errand.detail,
             userId: errand.user.userid
@@ -35,9 +35,9 @@ export class ErrandRepository{
         return result.map((row) => this.mapRowToModel(row));
     }
 
-    public async get(errandid: string) {
+    public async get(id: string) {
         const result = await this.repository.findOneBy({
-            errandid,
+            id,
         });
 
         if (!result) {
@@ -47,9 +47,9 @@ export class ErrandRepository{
         return this.mapRowToModel(result);
     }
 
-    public async delete(errandid: string) {
+    public async delete(id: string) {
         const result = await this.repository.delete({
-            errandid,
+            id,
         });
 
         return result.affected ?? 0;
@@ -58,7 +58,7 @@ export class ErrandRepository{
     public async update(errand: Errand) {
         await this.repository.update(
             {
-                errandid: errand.errandId,
+                id: errand.errandId,
             },
             {
                 description: errand.description,

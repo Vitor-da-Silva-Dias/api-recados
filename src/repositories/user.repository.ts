@@ -14,10 +14,10 @@ export class UserRepository {
         return result.map((entity) => UserRepository.mapRowToModel(entity));
     }
 
-    public async get(userid: string) {
+    public async get(id: string) {
         
         const result = await this.repository.findOneBy({
-            userid,
+            id,
         });
 
         if (!result) {
@@ -29,7 +29,7 @@ export class UserRepository {
 
     public async create(user: User) {
         const UserEntity = this.repository.create({
-            userid: user.userid,
+            id: user.userId,
             name: user.name,
             email: user.email,
             password: user.password,
@@ -39,9 +39,9 @@ export class UserRepository {
         await this.repository.save(UserEntity);
     }
 
-    public async delete(userid: string) {
+    public async delete(id: string) {
         const result = await this.repository.delete({
-            userid,
+            id,
         });
 
         return result.affected ?? 0;
@@ -50,7 +50,7 @@ export class UserRepository {
     public async update(user: User) {
         await this.repository.update(
             {
-                userid: user.userid,
+                id: user.userId,
             },
             {
                 email: user.email,
