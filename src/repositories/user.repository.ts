@@ -27,6 +27,17 @@ export class UserRepository {
         return UserRepository.mapRowToModel(result);
     }
 
+    public async getByEmail(email: string) {
+        const results = await this.repository.findOne({ where: { email } });
+    
+        if (!results) {
+          return undefined;
+        }
+    
+        return UserRepository.mapRowToModel(results);
+      }
+    
+
     public async create(user: User) {
         const UserEntity = this.repository.create({
             id: user.userId,
@@ -36,7 +47,9 @@ export class UserRepository {
             errands: user.errands,
         });
 
-        await this.repository.save(UserEntity);
+        const results = await this.repository.save(UserEntity);
+
+        return UserRepository.mapRowToModel(results);
     }
 
     public async delete(id: string) {
