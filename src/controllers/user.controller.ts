@@ -138,7 +138,7 @@ export class UserController {
         }
       }
 
-      public login(req: Request, res: Response) {
+      public async login(req: Request, res: Response) {
         try {
             const { email, password } = req.body;
 
@@ -154,13 +154,14 @@ export class UserController {
               .send({ ok: false, message: "Password was not provided" });
             }
 
-            const user = users.find((user) => user.email === email && user.password === password);
-            if (!user) {
+            const user = await new UserRepository().getByEmail(email);
+            
+            if (!user || user.password !== password) {
               return res
               .status(StatusCodes.UNAUTHORIZED)
               .send({ ok: false, message: "Invalid email or password" }); 
             }
-
+            
             return res.status(StatusCodes.OK).send({
               ok: true,
               message: "Login successfully done",
