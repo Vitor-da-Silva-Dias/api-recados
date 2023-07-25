@@ -14,6 +14,7 @@ const dataSource = new DataSource({
     synchronize: false,
     schema: 'crud_users_errands',
     entities: ["src/database/entities/**/*.ts"],  
+    migrations: ["src/database/migrations/**/*.ts"],
 });
 
 export default dataSource;
