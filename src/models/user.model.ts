@@ -4,11 +4,11 @@ import { UserEntity } from "../database/entities/user.entity";
 
 export class User{
     private _userId: string;
+    public _errands: Errand[]; 
     constructor(
-        private _name: string,
-        private _email: string,
+        public _name: string,
+        public _email: string,
         private _password: string,
-        private _errands: Errand[] = []
     ){
         this._userId = createUuid();
     }
@@ -50,8 +50,8 @@ export class User{
             id: this._userId,
             name: this._name,
             email: this._email,
-            password: this.password,
-            errands: this.errands
+            password: this._password,
+            errands: this._errands
         };
     }
 

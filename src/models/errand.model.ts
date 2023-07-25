@@ -51,7 +51,7 @@ export class Errand {
 
     public static create(row: ErrandEntity, user: User) {
         const errand = new Errand(row.description, row.detail, user);
-        errand._errandId = row.errandid;
+        errand._errandId = row.id;
 
         return errand;
     }
