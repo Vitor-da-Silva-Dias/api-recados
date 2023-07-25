@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import { UserEntity } from "./user.entity";
 import { BaseEntity } from "./base.entity";
 
@@ -13,6 +13,7 @@ export class ErrandEntity extends BaseEntity{
 
     @Column({
         name: "user_id",
+        type: "uuid"
     })
     userId: string;
 
