@@ -10,7 +10,8 @@
     "postinstall": "tsc",
     "start": "node ./build/index.js",
     "build": "tsc",
-    "migration:create": "typeorm migration:create src/database/migrations/AlterTable",
+    "migration:create": "typeorm migration:create src/database/migrations/CreateTable",
+    "migration:alter": "typeorm migration:create src/database/migrations/AlterTable",
     "migration:run": "typeorm-ts-node-commonjs migration:run -d src/database/config/database.config.ts",
     "migration:show": "typeorm-ts-node-commonjs migration:show -d src/database/config/database.config.ts",
     "migration:generate": "typeorm-ts-node-commonjs migration:generate TransactionEntity -d src/database/config/database.config.ts"
