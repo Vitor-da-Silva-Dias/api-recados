@@ -5,14 +5,14 @@ import { ErrandEntity } from "../database/entities/errand.entity";
 
 export class Errand {
     private _errandId: string;
-    public _archived: boolean;
+    
     constructor(
         private _description: string,
         private _detail: string,
-        private _user: User
+        private _user: User,
+        public _archived: boolean = false
     ){
         this._errandId = createUuid();
-        this._archived = false;
     }
 
     public get errandId(){
@@ -35,23 +35,32 @@ export class Errand {
         this._detail = detail;
     }
 
-    public get user(): User {
-        return this._user;
+    public get archived(){
+        return this._archived;
     }
 
-    public toJson(){
+    public set archived(archived: boolean){
+        this._archived = archived;
+    }
+
+    public get user() {
+        return this._user;
+      }
+
+      
+
+    public toJson(): any{
         return{
             id: this._errandId,
             description: this._description,
             detail: this.detail,
             archived: this._archived,
-            user: this._user?.toJson(),
         };
     }
 
     public static create(row: ErrandEntity, user: User) {
-        const errand = new Errand(row.description, row.detail, user);
-        errand._errandId = row.id;
+        const errand = new Errand(row.description, row.detail, user, row.archived);
+        errand._errandId = row.errandId;
 
         return errand;
     }
