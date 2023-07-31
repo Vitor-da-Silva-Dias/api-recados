@@ -47,17 +47,17 @@ export class User{
 
     public toJson(){
         return{
-            id: this._userId,
-            name: this._name,
-            email: this._email,
-            password: this._password,
-            errands: this._errands
+            id: this.userId,
+            name: this.name,
+            email: this.email,
+            password: this.password,
+            errands: this.errands
         };
     }
 
     public static create(row: UserEntity) {
         const user = new User(row.name, row.email, row.password);
-        user._userId = row.id;
+        user._userId = row.userId;
 
         return user;
     }
