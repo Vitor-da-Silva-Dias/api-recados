@@ -1,12 +1,16 @@
-import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm";
+import { Entity, Column, OneToMany, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BeforeInsert, BeforeUpdate } from "typeorm";
 import { ErrandEntity } from "./errand.entity";
-import { BaseEntity } from "./base.entity";
+import { randomUUID } from "crypto";
+// import { BaseEntity } from "./base.entity";
 
 
 @Entity({name: 'users'})
 
 
-export class UserEntity extends BaseEntity{
+export class UserEntity{
+    @PrimaryGeneratedColumn("uuid", { name: "id" })
+    userId: string;
+    
     @Column()
     name: string;
 
@@ -16,6 +20,25 @@ export class UserEntity extends BaseEntity{
     @Column()
     password: string;
 
-    @OneToMany(() => ErrandEntity, (errand) => errand.user)
-    errands: ErrandEntity[];
+    @CreateDateColumn({ name: "created_at" })
+    createdAt: Date;
+
+    @UpdateDateColumn({ name: "updated_at" })
+    updatedAt: Date;
+
+    @BeforeInsert()
+    beforeInsert() {
+    this.userId = randomUUID();
+    this.createdAt = new Date();
+    this.updatedAt = new Date();
+  }
+
+  @BeforeUpdate()
+  beforeUpdate() {
+    this.updatedAt = new Date();
+  }
+
+  @OneToMany(() => ErrandEntity, (errand) => errand.user)
+  errands: ErrandEntity[];
+
 }

@@ -80,8 +80,13 @@ export class CreateTableErrands1690248382540 implements MigrationInterface {
                 isNullable: false,   
               },
               {
+                name: "archived",
+                type: "boolean",
+                default: "false"
+              },
+              {
                 name: "user_id",
-                type: "varchar",
+                type: "uuid",
                 isNullable: false,
               },
               {
