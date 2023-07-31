@@ -5,7 +5,8 @@ import { UserRepository } from "./user.repository";
 
 
 interface ListErrandsParams{
-    userId: string,
+    userId?: string,
+    errandId?: string
 }
 
 export class ErrandRepository{
@@ -13,9 +14,10 @@ export class ErrandRepository{
 
     public async create(errand: Errand) {
         const ErrandEntity = this.repository.create({
-            id: errand.errandId,
+            errandId: errand.errandId,
             description: errand.description,
             detail: errand.detail,
+            archived: errand.archived,
             userId: errand.user.userId
         });
 
@@ -27,29 +29,31 @@ export class ErrandRepository{
             where: {
                 userId: params.userId,
             },
-            relations: {
-                user: true,
-            },
+            relations: ["user"], 
         });
-
+    
         return result.map((row) => this.mapRowToModel(row));
     }
+    
 
-    public async get(id: string) {
-        const result = await this.repository.findOneBy({
-            id,
+    public async get(params: ListErrandsParams) {
+        const result = await this.repository.findOne({
+            where: {
+                errandId: params.errandId,
+            },
+            relations: ["user"], 
         });
 
-        if (!result) {
+        if(!result){
             return undefined;
         }
-
+    
         return this.mapRowToModel(result);
     }
 
-    public async delete(id: string) {
+    public async delete(errandId: string) {
         const result = await this.repository.delete({
-            id,
+            errandId,
         });
 
         return result.affected ?? 0;
@@ -58,16 +62,19 @@ export class ErrandRepository{
     public async update(errand: Errand) {
         await this.repository.update(
             {
-                id: errand.errandId,
+                errandId: errand.errandId,
             },
             {
                 description: errand.description,
-                detail: errand.detail
+                detail: errand.detail,
+                archived:errand.archived
             }
         );
     }
 
     private mapRowToModel(row: ErrandEntity) {
+        console.log(row.user);
+        
         const user = UserRepository.mapRowToModel(row.user);
 
         return Errand.create(row, user);

@@ -83,7 +83,9 @@ export class ErrandController {
         }
 
         const errandRepository = new ErrandRepository();
-        const errand = await errandRepository.get(errandId);
+        const errand = await new ErrandRepository().get({
+          errandId,
+        });
 
         if (!errand) {
         return res
@@ -91,17 +93,18 @@ export class ErrandController {
           .send({ ok: false, message: "Errand was not found" }); 
         }
         
-        if (description) {
-            errand.description = description;
+        if (!description || !detail) {
+          return res
+          .status(StatusCodes.UNAUTHORIZED)
+          .send({ ok: false, message: "Invalid Update!" });
         }
 
-        if (detail) {
-            errand.detail = detail;
-        }
+        errand.description = description;
+        errand.detail = detail;
   
         await errandRepository.update(errand);
 
-        const errands = await errandRepository.list({
+        const errands = await new ErrandRepository().list({
             userId,
         });
   
@@ -162,25 +165,24 @@ export class ErrandController {
     
         const user = await new UserRepository().get(userId);
         if (!user) {
-        return res
-          .status(StatusCodes.NOT_FOUND)
-          .send({ ok: false, message: "User was not found" });
+          return res
+            .status(StatusCodes.NOT_FOUND)
+            .send({ ok: false, message: "User was not found" });
         }
-
     
         const errandRepository = new ErrandRepository();
-        const errand = await errandRepository.get(errandId);
-        
+        const errand = await errandRepository.get({ errandId });
+    
         if (!errand) {
           return res
             .status(StatusCodes.NOT_FOUND)
             .send({ ok: false, message: "Errand was not found." });
         }
-        
-        if(errand._archived === false){
-          errand._archived = true;
-        }
-        else{
+    
+        if (errand.archived === false) {
+          errand.archived = true;
+          await errandRepository.update(errand);
+        } else {
           return res
             .status(StatusCodes.UNAUTHORIZED)
             .send({ ok: false, message: "Errand already archived." });
@@ -197,6 +199,7 @@ export class ErrandController {
       }
     }
     
+    
     public async unarchiveErrand(req: Request, res: Response) {
       try {
         const { userId, errandId } = req.params;
@@ -210,7 +213,9 @@ export class ErrandController {
 
     
         const errandRepository = new ErrandRepository();
-        const errand = await errandRepository.get(errandId);
+        const errand = await new ErrandRepository().get({
+          errandId,
+        });
         
         if (!errand) {
           return res
@@ -220,6 +225,7 @@ export class ErrandController {
         
         if(errand._archived === true){
           errand._archived = false;
+          await errandRepository.update(errand);
         }
         else{
           return res
@@ -250,9 +256,8 @@ export class ErrandController {
           .send({ ok: false, message: "User was not found" });
         }
 
-        const errandRepository = new ErrandRepository();
-        let errands = await errandRepository.list({
-            userId,
+        let errands = await new ErrandRepository().list({
+            userId: userId,
         });
 
     if (description) {
