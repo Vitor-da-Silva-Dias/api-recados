@@ -1,7 +1,6 @@
 import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { UserEntity } from "./user.entity";
 import { randomUUID } from "crypto";
-// import { BaseEntity } from "./base.entity";
 
 @Entity("errands")
 

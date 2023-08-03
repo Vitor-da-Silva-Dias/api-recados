@@ -1,7 +1,6 @@
 import { Entity, Column, OneToMany, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BeforeInsert, BeforeUpdate } from "typeorm";
 import { ErrandEntity } from "./errand.entity";
 import { randomUUID } from "crypto";
-// import { BaseEntity } from "./base.entity";
 
 
 @Entity({name: 'users'})
