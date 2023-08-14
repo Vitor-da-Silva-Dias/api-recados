@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { Errand } from "../models/errand.model";
+import { Errand } from "../../../models/errand.model";
 import { StatusCodes } from "http-status-codes";
-import { UserRepository } from "../repositories/user.repository";
+import { UserRepository } from "../../user/repositories/user.repository";
 import { ErrandRepository } from "../repositories/errand.repository";
 
 

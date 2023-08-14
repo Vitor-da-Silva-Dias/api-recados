@@ -1,7 +1,7 @@
-import { Database } from "../database/config/database.connection";
-import { ErrandEntity } from "../database/entities/errand.entity";
-import { Errand } from "../models/errand.model";
-import { UserRepository } from "./user.repository";
+import { Database } from "../../../../main/config/database.connection";
+import { ErrandEntity } from "../../../shared/database/entities/errand.entity";
+import { Errand } from "../../../models/errand.model";
+import { UserRepository } from "../../user/repositories/user.repository";
 
 
 interface ListErrandsParams{
