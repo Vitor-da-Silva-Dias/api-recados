@@ -1,8 +1,8 @@
 import cors from "cors";
 import express from "express";
-import { appRoutes } from "./routes/user.routes";
+import { appRoutes } from "./app/features/user/routes/user.routes";
 import * as dotenv from "dotenv";
-import { Database } from "./database/config/database.connection";
+import { Database } from "./main/config/database.connection";
 import "reflect-metadata";
 
 dotenv.config();
