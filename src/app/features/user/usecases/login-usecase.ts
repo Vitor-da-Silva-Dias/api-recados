@@ -1,4 +1,3 @@
-import { JwtService } from "../../../shared/services/jwt.service";
 import { Result} from "../../../shared/util/result.contract";
 import { Usecase } from "../../../shared/util/usecase.contract";
 import { UsecaseResponse } from "../../../shared/util/response.adapter";
@@ -25,12 +24,9 @@ export class LoginUsecase implements Usecase {
         }
 
         
-        const token = new JwtService().createToken(user.toJson());
-
-        
-        return UsecaseResponse.success("Login successfully done", {
-            ...user.toJson(),
-            token,
-        });
+        return UsecaseResponse.success(
+            "Login successfully done",
+            user.toJson()  
+        );
     }
 }
