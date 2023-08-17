@@ -1,4 +1,4 @@
-import { Database } from "../../../../main/config/database.connection";
+import { Database } from "../../../../main/database/database.connection";
 import { ErrandEntity } from "../../../shared/database/entities/errand.entity";
 import { Errand } from "../../../models/errand.model";
 import { UserRepository } from "../../user/repositories/user.repository";
