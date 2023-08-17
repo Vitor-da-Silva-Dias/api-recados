@@ -5,7 +5,7 @@ import { errandRoutes } from "../../errand/routes/errand.routes";
 export const appRoutes = () => {
     const app = Router();
 
-    app.get("/", new UserController().getAllUsers);
+    app.get("/", new UserController().list);
     app.post("/", new UserController().createUser);
     app.put("/:id", new UserController().updateUser);
     app.delete("/:id", new UserController().deleteUser);
