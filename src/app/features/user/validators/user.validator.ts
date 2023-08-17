@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { UserRepository } from "../repositories/user.repository";
-import { JwtService } from "../../../shared/services/jwt.service";
 import { HttpResponse } from "../../../shared/util/http-response.adapter";
+import { StatusCodes } from "http-status-codes";
 
 
 export class UserValidator {
@@ -9,23 +9,16 @@ export class UserValidator {
   public static loginValidator(req: Request, res: Response, next: NextFunction) {
       try {
       
-          const token = req.headers.authorization;
+          const {email, password} = req.body;
 
-          if (!token) {
-              return HttpResponse.unauthorized(res);
-          }
-
-          const jwtService = new JwtService();
-          const isValid = jwtService.verifyToken(token);
-
-          if (!isValid) {
-              return HttpResponse.unauthorized(res);
+          if(!email || !password){
+            return HttpResponse.unauthorized(res);
           }
 
           next();
 
       } catch (error: any) {
-          return res.status(500).send({
+          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
               ok: false,
               error: error.toString(),
           });
@@ -59,11 +52,11 @@ export class UserValidator {
         next();
 
     } catch (error: any) {
-        return res.status(500).send({
-            ok: false,
-            error: error.toString(),
-        });
-      }
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+          ok: false,
+          error: error.toString(),
+      });
+    }
   }
 
 }
