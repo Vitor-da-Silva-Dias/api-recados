@@ -4,7 +4,7 @@ import { Result } from "../../../shared/util/result.contract";
 import { Usecase } from "../../../shared/util/usecase.contract";
 import { UserRepository } from "../../user/repositories/user.repository";
 
-export class ListCandidateUsecase implements Usecase {
+export class ListUserUsecase implements Usecase {
   public async execute(): Promise<Result> {
     const repository = new UserRepository();
     const cacheRepository = new CacheRepository();
@@ -13,19 +13,19 @@ export class ListCandidateUsecase implements Usecase {
 
     if (cacheResult) {
       return UsecaseResponse.success (
-        "Candidates successfully listed in cache", 
+        "Users successfully listed in cache", 
         cacheResult
         );
     }
 
     const result = await repository.list();
 
-    const data = result?.map((candidate) => candidate.toJson());
+    const data = result?.map((user) => user.toJson());
 
-    await cacheRepository.set("candidates", data);
+    await cacheRepository.set("users", data);
 
     return UsecaseResponse.success (
-      "Candidates successfully listed",
+      "Users successfully listed",
       data
     );
   }
