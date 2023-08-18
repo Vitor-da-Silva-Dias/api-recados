@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
+import { HttpResponse } from "../../../shared/util/http-response.adapter";
 
 
-export class ErrandMiddleware {
+export class ErrandValidator{
     public static validateFieldsCreate(
         req: Request,
         res: Response,
@@ -12,17 +13,11 @@ export class ErrandMiddleware {
             const { description, detail} = req.body;
 
             if (!description) {
-                return res.status(StatusCodes.BAD_REQUEST).send({
-                    ok: false,
-                    message: "Description was not provided",
-                  });
+                return HttpResponse.fieldNotProvided(res, description);
             }
 
             if (!detail) {
-                return res.status(StatusCodes.BAD_REQUEST).send({
-                    ok: false,
-                    message: "Detail was not provided",
-                  });
+                return HttpResponse.fieldNotProvided(res, detail);
             }
 
             next();
