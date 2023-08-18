@@ -1,8 +1,11 @@
 import { Request, Response } from "express";
-import { Errand } from "../../../models/errand.model";
 import { StatusCodes } from "http-status-codes";
 import { UserRepository } from "../../user/repositories/user.repository";
 import { ErrandRepository } from "../repositories/errand.repository";
+import { createErrandUsecase } from "../usecases/create-errand.usecase";
+import { listErrandUsecase } from "../usecases/list-errand-usecase";
+import { updateErrandUsecase } from "../usecases/update-errand-usecase";
+import { deleteErrandUsecase } from "../usecases/delete-errand-usecase";
 
 
 
@@ -12,25 +15,13 @@ export class ErrandController {
       const { userId } = req.params;
       const { description, detail } = req.body;
   
-      const user = await new UserRepository().get(userId);
-  
-      if (!user) {
-        return res
-          .status(StatusCodes.NOT_FOUND)
-          .send({ ok: false, message: "User was not found" });
-      }
-  
-  
-      const errand = new Errand(description, detail, user);
-      await new ErrandRepository().create(errand);
-  
-      const responsePayload = {
-        ok: true,
-        message: "Errand successfully added.",
-        data: errand.toJson(),
-      };
-  
-      return res.status(StatusCodes.OK).send(responsePayload);
+      const usecase = new createErrandUsecase();
+      const result = await usecase.execute({description, detail, userId});
+
+      return res.status(StatusCodes.OK).send({
+        res, 
+        result
+      });
     
     } catch (error: any) {
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
@@ -45,23 +36,14 @@ export class ErrandController {
       try {
         const { userId } = req.params;
   
-        const user = await new UserRepository().get(userId);
+        const usecase = new listErrandUsecase();
+        const result = await usecase.execute(userId);
 
-        if (!user) {
-        return res
-          .status(StatusCodes.NOT_FOUND)
-          .send({ ok: false, message: "User was not found" });
-        }
-
-        let errands = await new ErrandRepository().list({
-            userId: userId,
-        });
-  
         return res.status(StatusCodes.OK).send({
-          ok: true,
-          message: "Errand was sucessfully listed",
-          data: errands.map((errands) => errands.toJson())
+          res, 
+          result
         });
+      
       } catch (error: any) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
           ok: false,
@@ -75,44 +57,14 @@ export class ErrandController {
         const { userId, errandId } = req.params;
         const { description, detail } = req.body;
   
-        const user = await new UserRepository().get(userId);
-        if (!user) {
-        return res
-          .status(StatusCodes.NOT_FOUND)
-          .send({ ok: false, message: "User was not found" });
-        }
+        const usecase = new updateErrandUsecase();
+        const result = await usecase.execute({userId, errandId, description, detail});
 
-        const errandRepository = new ErrandRepository();
-        const errand = await new ErrandRepository().get({
-          errandId,
-        });
-
-        if (!errand) {
-        return res
-          .status(StatusCodes.NOT_FOUND)
-          .send({ ok: false, message: "Errand was not found" }); 
-        }
-        
-        if (!description || !detail) {
-          return res
-          .status(StatusCodes.UNAUTHORIZED)
-          .send({ ok: false, message: "Invalid Update!" });
-        }
-
-        errand.description = description;
-        errand.detail = detail;
-  
-        await errandRepository.update(errand);
-
-        const errands = await new ErrandRepository().list({
-            userId,
-        });
-  
         return res.status(StatusCodes.OK).send({
-            ok: true,
-            message: "Errand was succesfully updated",
-            data: errands.map((errand) => errand.toJson())
-            });  
+          res, 
+          result
+        });
+
       } catch (error: any) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
           ok: false,
@@ -125,31 +77,13 @@ export class ErrandController {
       try {
         const { userId, errandId } = req.params;
   
-        const user = await new UserRepository().get(userId);
-        if (!user) {
-        return res
-          .status(StatusCodes.NOT_FOUND)
-          .send({ ok: false, message: "User was not found" });
-        }
-
-        const errandRepository = new ErrandRepository();
-        const deletedErrand = await errandRepository.delete(errandId);
-
-        if (deletedErrand == 0) {
-        return res
-          .status(StatusCodes.NOT_FOUND)
-          .send({ ok: false, message: "Errand was not found" });
-        }
-
-        const errands = await errandRepository.list({
-            userId,
-        });
-  
+        const usecase = new deleteErrandUsecase();
+        const result = await usecase.execute({userId, errandId});
+        
         return res.status(StatusCodes.OK).send({
-          ok: true,
-          message: "Errand was deleted",
-          data: errands.map((errand) => errand.toJson())
-          });  
+          res, 
+          result
+        });
        
       } catch (error: any) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
