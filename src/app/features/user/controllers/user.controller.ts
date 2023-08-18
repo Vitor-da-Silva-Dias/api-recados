@@ -6,7 +6,7 @@ import { createUserUsecase } from "../usecases/create-user.usecase";
 import { LoginUsecase } from "../usecases/login-usecase";
 
 export class UserController {
-    public async list(req: Request, res: Response) {
+    public async listUser(req: Request, res: Response) {
       try {
             
           const usecase = new ListUserUsecase();

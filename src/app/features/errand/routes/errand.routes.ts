@@ -7,7 +7,6 @@ export const errandRoutes = () => {
         mergeParams: true,
     });
 
-    const controller = new ErrandController();
 
     app.post("/", new ErrandController().createErrand);
     app.get("/", new ErrandController().listErrand);

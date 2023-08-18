@@ -20,7 +20,7 @@ export class ListUserUsecase implements Usecase {
 
     const result = await repository.list();
 
-    const data = result?.map((user) => user.toJson());
+    const data = result.map((user) => user.toJson());
 
     await cacheRepository.set("users", data);
 
