@@ -7,7 +7,7 @@ import { CacheRepository } from "../../../shared/database/repositories/cache.rep
 
 
 
-interface CreateCandidateParams {
+interface CreateUserParams {
     name: string;
     email: string;
     password: string;
@@ -15,7 +15,7 @@ interface CreateCandidateParams {
 
 
   export class createUserUsecase implements Usecase {
-    public async execute (params: CreateCandidateParams): Promise<Result> {
+    public async execute (params: CreateUserParams): Promise<Result> {
         const repository = new UserRepository();
         const user = await repository.getByEmail(params.email);
 
