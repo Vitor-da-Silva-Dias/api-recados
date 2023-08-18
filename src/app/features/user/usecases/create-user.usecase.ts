@@ -33,15 +33,19 @@ interface CreateCandidateParams {
             params.password
           );
 
-        await repository.create(newUser);
+        const result = await repository.create(newUser);
+
         const cacheRepository = new CacheRepository();
+
+        await cacheRepository.setEx(`${user!.name}`, 60000, result.toJson());
+
         await cacheRepository.delete("users");  
 
         return{
             ok: true,
             message: "User successfully created",
             code: StatusCodes.CREATED,
-            data: user!.toJson()
+            data: result.toJson()
         }
          
     }
