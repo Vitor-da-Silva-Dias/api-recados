@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { UserRepository } from "../repositories/user.repository";
 import { ListUserUsecase } from "../usecases/list-user.usecase";
 import { createUserUsecase } from "../usecases/create-user.usecase";
 import { LoginUsecase } from "../usecases/login-usecase";
+import { updateUserUsecase } from "../usecases/update-user-usecase";
+import { deleteUserUsecase } from "../usecases/delete-user-usecase";
 
 export class UserController {
     public async listUser(req: Request, res: Response) {
@@ -13,9 +14,9 @@ export class UserController {
           const result = await usecase.execute();
         
           return res.status(StatusCodes.OK).send({
-          res, 
           result
         });
+        
       } catch (error: any) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
           ok: false,
@@ -33,7 +34,6 @@ export class UserController {
     
 
           return res.status(StatusCodes.OK).send({
-            res, 
             result
           });
 
@@ -47,32 +47,17 @@ export class UserController {
 
       public async updateUser(req: Request, res: Response) {
         try {
-          const { id } = req.params;
-          const { email } = req.body;
-          const { password } = req.body;  
-    
-          const repository = new UserRepository();
-          const user = await repository.get(id)
+          const { userId } = req.params;
+          const { email, password } = req.body;
+           
+          const usecase = new updateUserUsecase();
+          const result = await usecase.execute({userId, email, password});
           
-          if (!user) {
-            return res
-              .status(StatusCodes.NOT_FOUND)
-              .send({ ok: false, message: "User was not found" });
-          }
-    
-          if (email) {
-            user.email = email;
-          }
 
-          if (password) {
-            user.password = password;
-          }
-    
-          await repository.update(user);
+          return res.status(StatusCodes.OK).send({
+            result
+          });
 
-          return res
-            .status(StatusCodes.OK)
-            .send({ ok: true, message: "User have been updated successfully" });
         } catch (error: any) {
           return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
             ok: false,
@@ -83,21 +68,15 @@ export class UserController {
 
       public async deleteUser(req: Request, res: Response) {
         try {
-          const { id } = req.params;
+          const { userId } = req.params;
     
-          const userRepository = new UserRepository();
-          const deletedUser = await userRepository.delete(id);
-
-          if (deletedUser == 0) {
-            return res
-              .status(StatusCodes.NOT_FOUND)
-              .send({ ok: false, message: "User was not found" });
-          }
+          const usecase = new deleteUserUsecase();
+          const result = await usecase.execute({userId});
     
           return res.status(StatusCodes.OK).send({
-            ok: true,
-            message: "user was successfully deleted"    
+            result    
           });
+
         } catch (error: any) {
           return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
             ok: false,
@@ -114,9 +93,8 @@ export class UserController {
             const result = await usecase.execute({email, password});
 
             return res.status(StatusCodes.OK).send({
-              res, 
               result
-            });
+            });  
           
         } catch (error: any) {
           return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
