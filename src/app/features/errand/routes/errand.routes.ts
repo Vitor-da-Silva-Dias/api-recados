@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { ErrandController } from "../controllers/errand.controller";
+import { ErrandValidator } from "../validators/errand.validator";
+
 
 
 export const errandRoutes = () => {
@@ -8,7 +10,7 @@ export const errandRoutes = () => {
     });
 
 
-    app.post("/", new ErrandController().createErrand);
+    app.post("/",ErrandValidator.createErrandValidator, new ErrandController().createErrand);
     app.get("/", new ErrandController().listErrand);
     app.put("/:errandId", new ErrandController().updateErrand);
     app.delete("/:errandId", new ErrandController().deleteErrand);
