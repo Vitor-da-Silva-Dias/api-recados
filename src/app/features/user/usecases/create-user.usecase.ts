@@ -37,7 +37,7 @@ interface CreateUserParams {
 
         const cacheRepository = new CacheRepository();
 
-        await cacheRepository.setEx(`${user!.name}`, 60000, result.toJson());
+        await cacheRepository.setEx(`users - ${newUser!.name}`, 60, result.toJson());
 
         await cacheRepository.delete("users");  
 

@@ -19,7 +19,6 @@ export class ErrandController {
       const result = await usecase.execute({description, detail, userId});
 
       return res.status(StatusCodes.OK).send({
-        res, 
         result
       });
     
@@ -40,7 +39,6 @@ export class ErrandController {
         const result = await usecase.execute(userId);
 
         return res.status(StatusCodes.OK).send({
-          res, 
           result
         });
       
@@ -61,7 +59,6 @@ export class ErrandController {
         const result = await usecase.execute({userId, errandId, description, detail});
 
         return res.status(StatusCodes.OK).send({
-          res, 
           result
         });
 
@@ -81,7 +78,6 @@ export class ErrandController {
         const result = await usecase.execute({userId, errandId});
         
         return res.status(StatusCodes.OK).send({
-          res, 
           result
         });
        

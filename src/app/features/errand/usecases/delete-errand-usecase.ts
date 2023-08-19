@@ -32,7 +32,7 @@ export class deleteErrandUsecase implements Usecase {
 
         await cacheRepository.delete("errands");
 
-        const result = await new ErrandRepository().list({userId: params.userId});
+        const result = await errandRepository.list({userId: params.userId});
 
         const data = result.map((errand) => errand.toJson());
 

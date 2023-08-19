@@ -4,7 +4,7 @@ import { HttpResponse } from "../../../shared/util/http-response.adapter";
 
 
 export class ErrandValidator{
-    public static validateFieldsCreate(
+    public static createErrandValidator(
         req: Request,
         res: Response,
         next: NextFunction
@@ -13,11 +13,11 @@ export class ErrandValidator{
             const { description, detail} = req.body;
 
             if (!description) {
-                return HttpResponse.fieldNotProvided(res, description);
+                return HttpResponse.fieldNotProvided(res, "description");
             }
 
             if (!detail) {
-                return HttpResponse.fieldNotProvided(res, detail);
+                return HttpResponse.fieldNotProvided(res, "detail");
             }
 
             next();

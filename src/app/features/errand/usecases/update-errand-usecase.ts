@@ -1,4 +1,3 @@
-import { Errand } from "../../../models/errand.model";
 import { CacheRepository } from "../../../shared/database/repositories/cache.repository";
 import { UsecaseResponse } from "../../../shared/util/response.adapter";
 import { Result } from "../../../shared/util/result.contract";
@@ -42,12 +41,10 @@ export class updateErrandUsecase implements Usecase {
         const cacheRepository = new CacheRepository();
         await cacheRepository.delete("errands");
 
-        const result = await new ErrandRepository().list({userId: params.userId});
-
-        const data = result.map((errand) => errand.toJson());
+        const data = errand.toJson();
 
         return UsecaseResponse.success(
-            "Errand successfully deleted",
+            "Errand successfully updated",
             data
         )
     }
