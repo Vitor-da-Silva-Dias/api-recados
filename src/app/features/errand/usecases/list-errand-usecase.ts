@@ -1,4 +1,3 @@
-import { Errand } from "../../../models/errand.model";
 import { CacheRepository } from "../../../shared/database/repositories/cache.repository";
 import { UsecaseResponse } from "../../../shared/util/response.adapter";
 import { Result } from "../../../shared/util/result.contract";

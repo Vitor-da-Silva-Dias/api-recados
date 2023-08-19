@@ -17,10 +17,10 @@ export class UsecaseResponse {
         };
     }
 
-    public static invalidField(field: string, reason: string): Result {
+    public static BadRequest(reason: string): Result {
         return {
             ok: false,
-            message: `${field} is invalid: ${reason} `,
+            message: `Bad request: ${reason} `,
             code: 400,
         };
     }

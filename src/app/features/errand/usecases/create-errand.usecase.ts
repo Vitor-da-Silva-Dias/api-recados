@@ -1,6 +1,5 @@
 import { StatusCodes } from "http-status-codes";
 import { Errand } from "../../../models/errand.model";
-import { User } from "../../../models/user.model";
 import { CacheRepository } from "../../../shared/database/repositories/cache.repository";
 import { UsecaseResponse } from "../../../shared/util/response.adapter";
 import { Result } from "../../../shared/util/result.contract";
@@ -34,7 +33,7 @@ export class createErrandUsecase implements Usecase {
 
         const cacheRepository = new CacheRepository();
 
-        await cacheRepository.setEx(`errand - ${user.name}`, 60000, newErrand.toJson());
+        await cacheRepository.setEx(`errand - ${user.name}`, 60, newErrand.toJson());
 
         await cacheRepository.delete("errands");
 
