@@ -17,15 +17,6 @@ interface CreateUserParams {
   export class createUserUsecase implements Usecase {
     public async execute (params: CreateUserParams): Promise<Result> {
         const repository = new UserRepository();
-        const user = await repository.getByEmail(params.email);
-
-        if (user) {
-            return {
-              ok: false,
-              message: "User already exists",
-              code: StatusCodes.BAD_REQUEST,
-            };
-          }
 
           const newUser = new User(
             params.name,
