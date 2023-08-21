@@ -4,20 +4,16 @@ import { HttpResponse } from "../../../shared/util/http-response.adapter";
 
 
 export class ErrandValidator{
-    public static createErrandValidator(
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ) {
+    public static createErrandValidator (req: Request, res: Response, next: NextFunction) {
         try {
             const { description, detail} = req.body;
 
             if (!description) {
-                return HttpResponse.fieldNotProvided(res, "description");
+                return HttpResponse.badRequest(res, "description not provided");
             }
 
             if (!detail) {
-                return HttpResponse.fieldNotProvided(res, "detail");
+                return HttpResponse.badRequest(res, "detail not provided");
             }
 
             next();
@@ -28,4 +24,22 @@ export class ErrandValidator{
             });
           }
     }
+
+    public static async updateErrandValidator (req: Request, res: Response, next: NextFunction){
+        try{
+          const {description, detail} = req.body;
+          
+          if (!description && !detail) {
+            return HttpResponse.badRequest(res, "Invalid update");
+          }
+    
+          next();
+    
+        } catch (error: any) {
+          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+              ok: false,
+              error: error.toString(),
+          });
+        } 
+      }
 }
