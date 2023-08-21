@@ -1,17 +1,17 @@
 import { Response } from "express";
 
 export class HttpResponse {
-    public static fieldNotProvided(res: Response, field: string) {
+    public static badRequest(res: Response, reason: string) {
         return res.status(400).send({
             ok: false,
-            message: `${field} not provided`,
+            message: `${reason}`,
         });
     }
 
-    public static unauthorized(res: Response) {
+    public static unauthorized(res: Response, reason: string) {
         return res.status(401).send({
             ok: false,
-            message: `Invalid credentials`,
+            message: `${reason}`,
             code: 401,
         });
     }

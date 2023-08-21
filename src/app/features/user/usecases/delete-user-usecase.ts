@@ -11,6 +11,7 @@ interface DeleteUserParams {
 
 export class deleteUserUsecase implements Usecase {
     public async execute(params: DeleteUserParams): Promise<Result> {
+        
         const userRepository = new UserRepository();
         const deletedUser = await userRepository.delete(params.userId);
 
