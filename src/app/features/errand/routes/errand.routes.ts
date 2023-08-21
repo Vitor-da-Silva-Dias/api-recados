@@ -12,13 +12,12 @@ export const errandRoutes = () => {
 
     app.post("/",ErrandValidator.createErrandValidator, new ErrandController().createErrand);
     app.get("/", new ErrandController().listErrand);
-    app.put("/:errandId", new ErrandController().updateErrand);
+    app.put("/:errandId", ErrandValidator.updateErrandValidator, new ErrandController().updateErrand);
     app.delete("/:errandId", new ErrandController().deleteErrand);
 
     app.post("/:errandId/archive", new ErrandController().archiveErrand);
     app.post("/:errandId/unarchive", new ErrandController().unarchiveErrand);
 
-    app.get("/filter", new ErrandController().filterErrands);
 
     return app;
 }
