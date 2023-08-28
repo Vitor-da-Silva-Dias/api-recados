@@ -8,7 +8,7 @@ import { AlterTable1690354320225 } from "../../app/shared/database/migrations/16
 
 dotenv.config();
 
-const dataSource = new DataSource({
+let config = new DataSource({
     type: 'postgres',
     url: process.env.DB_URL,
     ssl: {
@@ -19,6 +19,17 @@ const dataSource = new DataSource({
     schema: 'crud_users_errands',
     entities: [UserEntity, ErrandEntity],  
     migrations: [CreateTableUsers1690248382540, CreateTableErrands1690248382540 ,AlterTable1690354320225],
+    
 });
 
-export default dataSource;
+if (process.env.DB_ENV === "test") {
+    config = new DataSource({
+        type: "sqlite",
+        database: "db.sqlite3",
+        synchronize: false,
+        entities: [UserEntity, ErrandEntity], 
+        migrations: ["tests/app/shared/database/migrations/**/*.ts"],
+    });
+}
+
+export default config;
