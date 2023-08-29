@@ -3,8 +3,8 @@ import { StatusCodes } from "http-status-codes";
 import { ListUserUsecase } from "../usecases/list-user.usecase";
 import { createUserUsecase } from "../usecases/create-user.usecase";
 import { LoginUsecase } from "../usecases/login-usecase";
-import { updateUserUsecase } from "../usecases/update-user-usecase";
-import { deleteUserUsecase } from "../usecases/delete-user-usecase";
+import { updateUserUsecase } from "../usecases/update-user.usecase";
+import { deleteUserUsecase } from "../usecases/delete-user.usecase";
 
 export class UserController {
     public async listUser(req: Request, res: Response) {
