@@ -51,8 +51,8 @@ describe("Create User Usecase", () => {
         expect(result).toBeDefined();
         expect(result.code).toBe(201);
         expect(result.ok).toBe(true);
-        expect(result.message).toBe("User successfully created");
-        expect(result).toHaveProperty("data", result.data);
+        expect(result.message).toEqual("User successfully created");
+        expect(result).toHaveProperty("data");
     });
 
     
