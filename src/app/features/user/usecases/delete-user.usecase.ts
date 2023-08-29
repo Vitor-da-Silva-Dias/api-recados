@@ -2,7 +2,7 @@ import { CacheRepository } from "../../../shared/database/repositories/cache.rep
 import { UsecaseResponse } from "../../../shared/util/response.adapter";
 import { Result } from "../../../shared/util/result.contract";
 import { Usecase } from "../../../shared/util/usecase.contract";
-import { UserRepository } from "../../user/repositories/user.repository";
+import { UserRepository } from "../repositories/user.repository";
 
 interface DeleteUserParams {
     userId: string
