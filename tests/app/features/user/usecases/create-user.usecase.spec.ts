@@ -34,7 +34,7 @@ describe("Create User Usecase", () => {
         return new createUserUsecase();
     };
 
-    test("deveria retornar sucesso caso o usuário seja criado com sucesso", async () => {
+    test("deveria retornar sucesso caso o usuário seja criado", async () => {
         const user = userMockSut();
         const sut = createSut();
         

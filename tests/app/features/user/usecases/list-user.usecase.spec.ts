@@ -50,7 +50,7 @@ describe("List User Usecase", () => {
 
     test("deveria retornar sucesso sem indicação de cache se não houver cache", async () => {
         const sut = createSut();
-        const users: User[] = [userMockSut]
+        const users: User[] = [userMockSut];
 
         jest.spyOn(CacheRepository.prototype, "get").mockResolvedValue(undefined);
         jest.spyOn(UserRepository.prototype, "list").mockResolvedValue(users);
