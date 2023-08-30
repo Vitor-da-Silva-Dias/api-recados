@@ -1,8 +1,7 @@
-import {createErrandUsecase} from "../../../../../src/app/features/errand/usecases/create-errand.usecase";
-import {UserRepository} from "../../../../../src/app/features/user/repositories/user.repository";
+import { createErrandUsecase } from "../../../../../src/app/features/errand/usecases/create-errand.usecase";
+import { UserRepository } from "../../../../../src/app/features/user/repositories/user.repository";
 import { ErrandRepository } from "../../../../../src/app/features/errand/repositories/errand.repository";
 import { User } from "../../../../../src/app/models/user.model";
-import { Errand } from "../../../../../src/app/models/errand.model";
 import { CacheRepository } from "../../../../../src/app/shared/database/repositories/cache.repository";
 import { CacheDatabase } from "../../../../../src/main/database/cache.connection";
 import { Database } from "../../../../../src/main/database/database.connection";
@@ -32,7 +31,7 @@ describe("Create Errand Usecase", () => {
     });
 
     const createSut = () => {
-        return new createErrandUsecase;
+        return new createErrandUsecase();
     };
 
     test("deveria retornar falha caso o usuário não seja encontrado", async () => {

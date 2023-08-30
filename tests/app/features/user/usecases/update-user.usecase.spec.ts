@@ -6,7 +6,7 @@ import { Database } from "../../../../../src/main/database/database.connection";
 import { User } from "../../../../../src/app/models/user.model";
 
 
-describe("Delete User Usecase", () => {
+describe("Update User Usecase", () => {
     beforeAll(async () => {
       await Database.connect();
       await CacheDatabase.connect();

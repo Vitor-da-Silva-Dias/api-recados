@@ -20,7 +20,7 @@ export class UsecaseResponse {
     public static BadRequest(reason: string): Result {
         return {
             ok: false,
-            message: `Bad request: ${reason} `,
+            message: `Bad request: ${reason}`,
             code: 400,
         };
     }

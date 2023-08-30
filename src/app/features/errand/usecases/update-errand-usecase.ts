@@ -8,8 +8,8 @@ import { ErrandRepository } from "../repositories/errand.repository";
 interface UpdateErrandParams {
   errandId: string;
   userId: string;
-  description: string;
-  detail: string;
+  description?: string;
+  detail?: string;
 }
 
 export class updateErrandUsecase implements Usecase {

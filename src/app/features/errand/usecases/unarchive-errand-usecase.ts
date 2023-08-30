@@ -7,7 +7,8 @@ import { ErrandRepository } from "../repositories/errand.repository";
 
 interface UnarchiveErrandParams {
     userId: string,
-    errandId: string
+    errandId: string,
+    archived?: boolean
 }
 
 

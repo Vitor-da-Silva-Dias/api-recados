@@ -1,5 +1,5 @@
-import {ListUserUsecase} from "../../../../../src/app/features/user/usecases/list-user.usecase";
-import {UserRepository} from "../../../../../src/app/features/user/repositories/user.repository";
+import { ListUserUsecase } from "../../../../../src/app/features/user/usecases/list-user.usecase";
+import { UserRepository } from "../../../../../src/app/features/user/repositories/user.repository";
 import { User } from "../../../../../src/app/models/user.model";
 import { CacheRepository } from "../../../../../src/app/shared/database/repositories/cache.repository";
 import { CacheDatabase } from "../../../../../src/main/database/cache.connection";

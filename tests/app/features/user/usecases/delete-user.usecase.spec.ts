@@ -64,5 +64,6 @@ describe("Delete User Usecase", () => {
         expect(result.ok).toBe(true);
         expect(result.code).toBe(200);
         expect(result.message).toEqual("User successfully deleted");
+        expect(result).toHaveProperty("data");
     })
 });
