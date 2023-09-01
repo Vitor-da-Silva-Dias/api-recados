@@ -54,9 +54,9 @@ export class UserController {
           const result = await usecase.execute({userId, email, password});
           
 
-          return res.status(result.code).send({
+          return res.status(result.code).send(
             result
-          });
+          );
 
         } catch (error: any) {
           return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
@@ -73,9 +73,9 @@ export class UserController {
           const usecase = new deleteUserUsecase();
           const result = await usecase.execute({userId});
     
-          return res.status(result.code).send({
+          return res.status(result.code).send(
             result    
-          });
+          );
 
         } catch (error: any) {
           return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
@@ -92,9 +92,9 @@ export class UserController {
             const usecase = new LoginUsecase();
             const result = await usecase.execute({email, password});
 
-            return res.status(result.code).send({
+            return res.status(result.code).send(
               result
-            });  
+            );  
           
         } catch (error: any) {
           return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({

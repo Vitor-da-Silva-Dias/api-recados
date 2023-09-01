@@ -16,23 +16,22 @@ describe("User Controller - CREATE", () => {
     });
   
     afterAll(async () => {
-        await Database.connection.destroy();
-        await CacheDatabase.connection.quit();
-    });
-    
-    beforeEach(async () => {
         const repository = Database.connection.getRepository(UserEntity);
     
         await repository.clear();
 
         const cache = CacheDatabase.connection;
         await cache.flushall();
-    });
 
-    afterEach(() => {
+        await Database.connection.destroy();
+        await CacheDatabase.connection.quit();
+    });
+    
+    beforeEach(async () => {
         jest.clearAllMocks();
         jest.resetAllMocks();
     });
+
     
     const createSut = () => {
         return createApp();
@@ -94,17 +93,16 @@ describe("User Controller - CREATE", () => {
 
     test("deveria retornar falha caso o email já exista", async () => {
     const sut = createSut();
-
-    const user = new User("any_name", "any_email", "12345");
+    const user = new User("any_name", "any_email", "any_password");
 
     await createUser(user);
-
 
     const result = await request(sut).post("/users").send({
         name:"any_name",
         email: "any_email",
         password: "any_password"
     });
+    
 
     expect(result).toBeDefined();
     expect(result.status).toBe(401);
@@ -116,22 +114,14 @@ describe("User Controller - CREATE", () => {
 
     test("Deveria retornar sucesso se o usuário for criado", async () => {
         const sut = createSut();
-
-        const user = new User(
-            'any_name',
-            'any_email@teste.com',
-            'any_password'
-        );
-        await createUser(user);
-
+        
         jest.spyOn(CacheRepository.prototype, "setEx").mockResolvedValue();
         jest.spyOn(CacheRepository.prototype, "delete").mockResolvedValue();
 
         const result = await request(sut).post("/users").send({
-            name: 'newUser',
-            email: 'newemail@teste.com',
-            password: '12345',
-            
+            name: "newUser",
+            email: "newemail@teste.com",
+            password: "12345",  
         });
 
 

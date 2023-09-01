@@ -8,7 +8,7 @@ import { UserRepository } from "../../../../../src/app/features/user/repositorie
 import { User } from "../../../../../src/app/models/user.model";
 
 
-describe("User Controller - List", () => {
+describe("User Controller - LIST", () => {
 
     beforeAll(async () => {
       await Database.connect();
@@ -16,6 +16,13 @@ describe("User Controller - List", () => {
     });
   
     afterAll(async () => {
+        const repository = Database.connection.getRepository(UserEntity);
+    
+        await repository.clear();
+
+        const cache = CacheDatabase.connection;
+        await cache.flushall();
+
         await Database.connection.destroy();
         await CacheDatabase.connection.quit();
     });

@@ -37,6 +37,8 @@ describe("Create User Usecase", () => {
     test("deveria retornar sucesso caso o usuário seja criado", async () => {
         const user = userMockSut();
         const sut = createSut();
+
+        jest.spyOn(UserRepository.prototype, "create").mockResolvedValue(user);
         
         const result = await sut.execute({
             name: "any_name",
@@ -44,7 +46,7 @@ describe("Create User Usecase", () => {
             password: "any_password"    
         });
 
-        jest.spyOn(UserRepository.prototype, "create").mockResolvedValue(user);
+        
         jest.spyOn(CacheRepository.prototype, "setEx").mockResolvedValue();
         jest.spyOn(CacheRepository.prototype, "delete").mockResolvedValue();
 
