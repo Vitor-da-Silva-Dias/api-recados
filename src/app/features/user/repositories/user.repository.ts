@@ -47,9 +47,9 @@ export class UserRepository {
             errands: user.errands
         });
 
-        const results = await this.repository.save(UserEntity);
+        const result = await this.repository.save(UserEntity);
 
-        return UserRepository.mapRowToModel(results);
+        return UserRepository.mapRowToModel(result);
     }
 
     public async delete(userId: string) {

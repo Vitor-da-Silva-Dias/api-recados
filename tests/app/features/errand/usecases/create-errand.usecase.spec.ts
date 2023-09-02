@@ -1,6 +1,5 @@
 import { createErrandUsecase } from "../../../../../src/app/features/errand/usecases/create-errand.usecase";
 import { UserRepository } from "../../../../../src/app/features/user/repositories/user.repository";
-import { ErrandRepository } from "../../../../../src/app/features/errand/repositories/errand.repository";
 import { User } from "../../../../../src/app/models/user.model";
 import { CacheRepository } from "../../../../../src/app/shared/database/repositories/cache.repository";
 import { CacheDatabase } from "../../../../../src/main/database/cache.connection";
@@ -23,7 +22,7 @@ describe("Create Errand Usecase", () => {
         "any_email",
         "any_password",
     );
-      
+
   
     afterAll(async () => {
       await Database.connection.destroy();
@@ -56,8 +55,7 @@ describe("Create Errand Usecase", () => {
 
         jest.spyOn(UserRepository.prototype, "get").mockResolvedValue(userMockSut);
 
-        jest.spyOn(ErrandRepository.prototype, "create").mockResolvedValue();
-
+        
         const result = await sut.execute ({
             description: "any_description",
             detail: "any_detail",

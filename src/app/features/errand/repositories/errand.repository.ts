@@ -21,7 +21,9 @@ export class ErrandRepository{
             userId: errand.user.userId
         });
 
-        await this.repository.save(ErrandEntity);
+        const result = await this.repository.save(ErrandEntity);
+
+        return result;
     }
 
     public async list(params: ListErrandsParams) {

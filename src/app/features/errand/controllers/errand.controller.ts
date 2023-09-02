@@ -18,9 +18,9 @@ export class ErrandController {
       const usecase = new createErrandUsecase();
       const result = await usecase.execute({description, detail, userId});
 
-      return res.status(StatusCodes.OK).send({
+      return res.status(result.code).send(
         result
-      });
+      );
     
     } catch (error: any) {
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
@@ -38,9 +38,9 @@ export class ErrandController {
         const usecase = new listErrandUsecase();
         const result = await usecase.execute(userId);
 
-        return res.status(StatusCodes.OK).send({
+        return res.status(result.code).send(
           result
-        });
+        );
       
       } catch (error: any) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
@@ -58,9 +58,9 @@ export class ErrandController {
         const usecase = new updateErrandUsecase();
         const result = await usecase.execute({userId, errandId, description, detail});
 
-        return res.status(StatusCodes.OK).send({
+        return res.status(result.code).send(
           result
-        });
+        );
 
       } catch (error: any) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
@@ -77,9 +77,9 @@ export class ErrandController {
         const usecase = new deleteErrandUsecase();
         const result = await usecase.execute({userId, errandId});
         
-        return res.status(StatusCodes.OK).send({
+        return res.status(result.code).send(
           result
-        });
+        );
        
       } catch (error: any) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
@@ -96,9 +96,9 @@ export class ErrandController {
         const usecase = new archiveErrandUsecase();
         const result = await usecase.execute({userId, errandId});
 
-        return res.status(StatusCodes.OK).send({
+        return res.status(result.code).send(
           result
-        });
+        );
 
       } catch (error: any) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
@@ -116,9 +116,9 @@ export class ErrandController {
         const usecase = new unarchiveErrandUsecase();
         const result = await usecase.execute({userId, errandId});
 
-        return res.status(StatusCodes.OK).send({
+        return res.status(result.code).send(
           result
-        });
+        );
     
       } catch (error: any) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({

@@ -9,11 +9,11 @@ export class ErrandValidator{
             const { description, detail} = req.body;
 
             if (!description) {
-                return HttpResponse.badRequest(res, "description not provided");
+                return HttpResponse.badRequest(res, "Description not provided");
             }
 
             if (!detail) {
-                return HttpResponse.badRequest(res, "detail not provided");
+                return HttpResponse.badRequest(res, "Detail not provided");
             }
 
             next();
