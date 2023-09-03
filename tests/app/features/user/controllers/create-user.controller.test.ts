@@ -6,6 +6,8 @@ import { Database } from "../../../../../src/main/database/database.connection";
 import { CacheDatabase } from "../../../../../src/main/database/redis.connection";
 import { UserRepository } from "../../../../../src/app/features/user/repositories/user.repository";
 import { User } from "../../../../../src/app/models/user.model";
+import { error } from "console";
+import { createUserUsecase } from "../../../../../src/app/features/user/usecases/create-user.usecase";
 
 
 describe("User Controller - CREATE", () => {
@@ -131,6 +133,27 @@ describe("User Controller - CREATE", () => {
         expect(result.body).toHaveProperty("ok", true);
         expect(result.body).toHaveProperty("message", "User successfully created");
         expect(result.body).toHaveProperty("data");
+      });
+
+      test("deveria executar o bloco catch (erro 500 - falha no servidor)", async () => {
+        const sut = createSut();
+       
+        const mockError = new Error();
+
+        jest.spyOn(createUserUsecase.prototype, 'execute').mockRejectedValueOnce(mockError);
+
+  
+        const result = await request(sut).post("/users").send({
+            name: "error",
+            email: "error@teste.com",
+            password: "12345",  
+        });
+  
+        
+        expect(result).toBeDefined();
+        expect(result.status).toBe(500);
+        expect(result).toHaveProperty("body");
+        expect(result).toHaveProperty("ok", false);
       });
 
 });  

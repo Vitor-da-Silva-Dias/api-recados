@@ -7,6 +7,7 @@ import { CacheDatabase } from "../../../../../src/main/database/redis.connection
 import { UserRepository } from "../../../../../src/app/features/user/repositories/user.repository";
 import { User } from "../../../../../src/app/models/user.model";
 import { ErrandEntity } from "../../../../../src/app/shared/database/entities/errand.entity";
+import { createErrandUsecase } from "../../../../../src/app/features/errand/usecases/create-errand.usecase";
 
 
 describe("Errand Controller - CREATE", () => {
@@ -122,5 +123,25 @@ describe("Errand Controller - CREATE", () => {
         expect(result.body).toHaveProperty("ok", true);
         expect(result.body).toHaveProperty("message", "Errand successfully created");
         expect(result.body).toHaveProperty("data");
+    });
+
+    test("deveria executar o bloco catch (erro 500 - falha no servidor)", async () => {
+        const sut = createSut();
+        const user = await createUser(newUser);
+
+        const mockError = new Error();
+
+        jest.spyOn(createErrandUsecase.prototype, 'execute').mockRejectedValueOnce(mockError);
+
+        const result = await request(sut).post(`/users/${user.userId}/errands`).send({
+            description: "any_description",
+            detail: "any_detail"
+        })
+
+        expect(result).toBeDefined();
+        expect(result.status).toBe(500);
+        expect(result).toHaveProperty("body");
+        expect(result).toHaveProperty("ok", false);
+
     });
 });

@@ -9,6 +9,7 @@ import { User } from "../../../../../src/app/models/user.model";
 import { ErrandEntity } from "../../../../../src/app/shared/database/entities/errand.entity";
 import { Errand } from "../../../../../src/app/models/errand.model";
 import { ErrandRepository } from "../../../../../src/app/features/errand/repositories/errand.repository";
+import { unarchiveErrandUsecase } from "../../../../../src/app/features/errand/usecases/unarchive-errand-usecase";
 
 
 describe("Errand Controller - UNARCHIVE", () => {
@@ -141,5 +142,31 @@ describe("Errand Controller - UNARCHIVE", () => {
         expect(result.body).toHaveProperty("ok", false);
         expect(result.body).toHaveProperty("message", "Bad request: Errand already unarchived");
         expect(result.body).toHaveProperty("code", 400);
-    })
+    });
+
+    test("deveria executar o bloco catch (erro 500 - falha no servidor)", async () => {
+        const sut = createSut();
+
+        const user = await createUser(newUser);
+        const newErrand = new Errand(
+            "any_description",
+            "any_detail",
+            user,
+            true
+        );
+        const errand = await createErrand(newErrand);
+
+        const mockError = new Error();
+
+        jest.spyOn(unarchiveErrandUsecase.prototype, 'execute').mockRejectedValueOnce(mockError);
+
+        const result = await request(sut).post(`/users/${user.userId}/errands/${errand.errandId}/unarchive`)
+        .send()
+
+        expect(result).toBeDefined();
+        expect(result.status).toBe(500);
+        expect(result).toHaveProperty("body");
+        expect(result).toHaveProperty("ok", false);
+
+    });
 })

@@ -6,6 +6,7 @@ import { Database } from "../../../../../src/main/database/database.connection";
 import { CacheDatabase } from "../../../../../src/main/database/redis.connection";
 import { UserRepository } from "../../../../../src/app/features/user/repositories/user.repository";
 import { User } from "../../../../../src/app/models/user.model";
+import { deleteUserUsecase } from "../../../../../src/app/features/user/usecases/delete-user.usecase";
 
 
 describe("User Controller - DELETE", () => {
@@ -77,4 +78,28 @@ describe("User Controller - DELETE", () => {
         expect(result.body).toHaveProperty("code", 200);
         expect(result.body).toHaveProperty("data");
     });
+
+    test("deveria executar o bloco catch (erro 500 - falha no servidor)", async () => {
+        const sut = createSut();
+        const newUser = new User(
+            "any_name",
+            "any_email@teste.com",
+            "any_password"
+        );
+        const user = await createUser(newUser);
+        
+        const mockError = new Error();
+
+        jest.spyOn(deleteUserUsecase.prototype, 'execute').mockRejectedValueOnce(mockError);
+
+  
+        const result = await request(sut).delete(`/users/${user.userId}`).send();
+        
+        
+        expect(result).toBeDefined();
+        expect(result.status).toBe(500);
+        expect(result).toHaveProperty("body");
+        expect(result).toHaveProperty("ok", false);
+      });
+
 });

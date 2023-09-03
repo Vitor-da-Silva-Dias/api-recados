@@ -6,6 +6,7 @@ import { Database } from "../../../../../src/main/database/database.connection";
 import { CacheDatabase } from "../../../../../src/main/database/redis.connection";
 import { UserRepository } from "../../../../../src/app/features/user/repositories/user.repository";
 import { User } from "../../../../../src/app/models/user.model";
+import { ListUserUsecase } from "../../../../../src/app/features/user/usecases/list-user.usecase";
 
 
 describe("User Controller - LIST", () => {
@@ -105,4 +106,20 @@ describe("User Controller - LIST", () => {
         expect(result.body.data).toHaveLength(0);
     });
 
+    test("deveria executar o bloco catch (erro 500 - falha no servidor)", async () => {
+        const sut = createSut();
+       
+        const mockError = new Error();
+
+        jest.spyOn(ListUserUsecase.prototype, 'execute').mockRejectedValueOnce(mockError);
+
+  
+        const result = await request(sut).get("/users").send();
+  
+        
+        expect(result).toBeDefined();
+        expect(result.status).toBe(500);
+        expect(result).toHaveProperty("body");
+        expect(result).toHaveProperty("ok", false);
+      });
 });

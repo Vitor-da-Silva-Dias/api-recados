@@ -9,6 +9,7 @@ import { User } from "../../../../../src/app/models/user.model";
 import { ErrandEntity } from "../../../../../src/app/shared/database/entities/errand.entity";
 import { Errand } from "../../../../../src/app/models/errand.model";
 import { ErrandRepository } from "../../../../../src/app/features/errand/repositories/errand.repository";
+import { updateErrandUsecase } from "../../../../../src/app/features/errand/usecases/update-errand-usecase";
 
 
 describe("Errand Controller - UPDATE", () => {
@@ -207,5 +208,37 @@ describe("Errand Controller - UPDATE", () => {
         expect(result.body).toHaveProperty("message", "Errand successfully updated");
         expect(result.body).toHaveProperty("code", 200);
         expect(result.body).toHaveProperty("data");
+    });
+
+    test("deveria executar o bloco catch (erro 500 - falha no servidor)", async () => {
+        const sut = createSut();
+
+        const newUser = new User(
+            "any_name",
+            "any_email@teste.com",
+            "any_password"
+        );
+        const user = await createUser(newUser);
+        const newErrand = new Errand(
+            "any_description",
+            "any_detail",
+            user
+        );
+        const errand = await createErrand(newErrand);
+
+        const mockError = new Error();
+
+        jest.spyOn(updateErrandUsecase.prototype, "execute").mockRejectedValueOnce(mockError);
+
+        const result = await request(sut).put(`/users/${user.userId}/errands/${errand.errandId}`)
+        .send({
+            description: "new_description",
+            detail: "new_detail"
+        })
+
+        expect(result).toBeDefined();
+        expect(result.status).toBe(500);
+        expect(result).toHaveProperty("body");
+        expect(result).toHaveProperty("ok", false);
     });
 });
